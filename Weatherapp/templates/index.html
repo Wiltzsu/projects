@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    <link rel="stylesheet" href="/static/css/main.css">
+    
+
+    <script>
+        // Refresh weather data every 5 minutes
+        setInterval(function() {
+          location.reload();
+        }, 5 * 60 * 1000); // 5 minutes in milliseconds
+      </script>
+      
+</head>
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><strong>Weather info</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="#search">Search <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#scandinavia">Scandinavia weather</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+    <!--Search results-->
+    <div class="container search_location">
+        <div class="row p-2">
+            <div class="col-sm-4 city_styling">
+                <div class="city"> {{ city_name }} </div>
+                <div> {{ country_name }} </div>
+                <div> {{ local_time }} </div>
+            </div>
+            <div class="col-sm-2 temp_styling">
+                <div class> {{ temperature }}°C</div>
+            </div>
+            <div class="col-sm-3 description_styling">
+                <div><img src="http://openweathermap.org/img/w/02d.png" alt="Image"></div>
+                <div><strong> {{ desc }} </strong></div>
+            </div>
+            <div class="col-sm-3 weather_styling">
+                <div> <strong></strong> </div>
+                <div> <strong> Sunrise {{ sunrise_time }} </strong></div>
+                <div> <strong> Sunset {{ sunset_time }} </strong></div>
+                <div>  <strong></strong></div>
+            </div>
+        </div>
+
+        <!--Input and button-->
+        <div class="row pb-3">
+            <div class="col-sm-12 d-flex justify-content-center">
+                <div class="input-group input_width">
+                    <form action="/" method="POST">
+                        <input type="text" name="city" class="form-control form-control-lg" placeholder="Search for city" aria-label="Search for city" aria-describedby="basic-addon2">
+                        <div class="input-group-append"><button class="btn btn-outline-secondary button_color button_text_color" type="submit" id="search">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--Scandinavia weather-->
+    <div class="container pt-5">
+        <div class="row" id="header">
+            <div class="col-sm-12">
+                <h1 id="scandinavia">What's the weather in Scandinavia?</h1>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            {% for data in weather %}
+            <!--City-->
+            <div class="grid-item column1 ">
+                <div class="citystyling">{{ data.city }}</div>
+                <div class="tempstyling">{{ data.temperature }}°C</div>
+            </div>
+            <!--Feels like-->
+            <div class="grid-item column2 marginontop">
+                <div class="degree">{{ data.temp_feels }}°C</div> <br>
+                <div class="degree_text">Feels like</div> 
+            </div>
+            <!--Humidity-->
+            <div class="grid-item column3 marginontop">
+                <div class="humidity">{{ data.humidity }}</div> <br>
+                <div class="humidity_text">Humidity</div> 
+            </div>
+            <!--Wind speed-->
+            <div class="grid-item column4 marginontop">
+                <div class="wind">{{ data.wind }} m/s {{ data.wind_direction }}</div>  <br> 
+                <div class="wind_text">Wind</div> 
+            </div>
+            <!--Description-->
+            <div class="grid-item column5">
+                <img src="http://openweathermap.org/img/w/{{ data.icon }}.png" alt="Image"><br>
+                {{ data.description }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
+
+<!--
+    Here are some ideas to enhance your weather app:
+
+    Allow users to search for weather by their location: You can add a feature that detects the user's location and displays the weather data for their location.
+
+    Display a map of the region: Adding an interactive map to display the weather data for different regions of Scandinavia could be a useful and engaging feature.
+
+    Historical weather data: Allow users to view historical weather data for different cities or regions. You could show data for the past week or month, for example.
+
+    Alerts and notifications: You can send alerts and notifications to users about changes in weather conditions or upcoming weather events like storms.
+
+    Add more weather data: You can display more weather data like wind speed, humidity, sunrise/sunset times, and precipitation.
+
+    Add user preferences: You can add a feature that allows users to set their preferences for the units of measurement, the layout of the app, or the type of weather data they want to see.
+
+    Social media integration: Allow users to share weather updates on social media platforms like Facebook and Twitter.
+
+    Weather news updates: Incorporate weather news updates from reliable sources to keep users informed about weather trends and events in Scandinavia.
+
+    Improve UI/UX design: Make the app more visually appealing and user-friendly by improving the design and layout of the app.
+
+    Add support for more cities: You can expand the app's coverage by adding support for more cities in Scandinavia or other parts of the world.
+
+
+    Here is my ranking of the tasks from easiest to hardest:
+
+    Add user preferences
+    Display a map of the region
+    Allow users to search for weather by their location
+    Add more weather data
+    Alerts and notifications
+    Historical weather data
+    Social media integration
+    Weather news updates
+    Add support for more cities
+    Improve UI/UX design
+
+-->
