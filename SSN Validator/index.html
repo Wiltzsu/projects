@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <title>Finnish Social Security Number Validator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- CSS -->
+    <style>
+        body {
+            background-color: rgb(183, 201, 201);
+        }
+        .container {
+            width: 50em;
+            background-color: white;
+        } .headdiv {
+            margin-top: 10em;
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        } button {
+            margin-top: 1em;
+        } input {
+            width: 11em;
+        } .punteksti {
+            color: red;
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script>
+        // Arrays
+        let syntymaaika = []
+        let valimerkki = []
+        let yksilonumero = []
+        let tarkistusmerkki = []
+
+        // Main function
+        function tarkista() {
+
+            // Call the arrays every time to empty them
+            syntymaaika = []
+            valimerkki = []
+            yksilonumero = []
+            tarkistusmerkki = []
+
+            // Get the value
+            let henkiloturvatunnus = document.getElementById("henkilotunnus").value
+
+            // Refresh the fields
+            document.getElementById("sukupuoli").innerHTML = ""
+            document.getElementById("ika").innerHTML = ""
+            document.getElementById("tarknumero").innerHTML = ""
+            document.getElementById("error").innerHTML = ""
+
+            // Slice the input and push to arrays
+            let synt = henkiloturvatunnus.slice(0, 6)
+            syntymaaika.push(synt)
+            let vali = henkiloturvatunnus.slice(6, 7)
+            valimerkki.push(vali)
+            let yksi = henkiloturvatunnus.slice(7, 10)
+            yksilonumero.push(yksi)
+            let tark = henkiloturvatunnus.slice(10, 11)
+            tarkistusmerkki.push(tark)
+
+            // Error if first 6 characters are not numbers
+            const errorKuusimerkkia = "The first six digits needs to be numbers"
+            for (let i = 0; i < syntymaaika.length; i++) {
+                if (isNaN(syntymaaika[i])) {
+                    document.getElementById("error").innerHTML = errorKuusimerkkia
+                    return
+                }
+            }
+
+            // Error if input is not 11 characters long
+            const errorPituus = "The input needs to be 11 digits long"
+            if (henkiloturvatunnus.length !== 11) {
+                document.getElementById("error").innerHTML = errorPituus
+                return
+            }
+
+            // Error if the separating character is not +, - tai A
+            const vuosisadanMerkki = "The separating digit needs to be +, - tai A"
+            if ((valimerkki != "+") && (valimerkki != "-") && (valimerkki != "A")) {
+                document.getElementById("error").innerHTML = vuosisadanMerkki
+                return
+            }
+
+            // Error if SSN doesn't contain numbers
+            const numeroita = "SSN has to include numbers"
+            for (let i = 0; i < yksilonumero.length; i++) {
+                if (isNaN(yksilonumero[i])) {
+                    document.getElementById("error").innerHTML = numeroita
+                    return
+                }
+            }
+
+            // Function for date check
+            paivamaara()
+
+            // Function for age and year check
+            ika()
+
+            // Function for gender check
+            sukupuoli()
+                
+            // Function for validation
+            tarkistusnumero()
+
+
+        }
+
+        // Checks if given date and month values are correct
+        function paivamaara() {
+
+            document.getElementById("errorpaiva").innerHTML = ""
+            document.getElementById("errorkuukausi").innerHTML = ""
+
+            let paivat = parseInt(syntymaaika[0].slice(0, 2))
+            let kuukaudet = parseInt(syntymaaika[0].slice(2, 4))
+
+            // Checks if given dates and months are within scope
+            if ((paivat < 1 || paivat > 31) || (kuukaudet < 1 || kuukaudet > 12)) {
+                if (paivat < 1 || paivat > 31) {
+                    document.getElementById("errorpaiva").innerHTML = "Error with days"
+                }
+                if (kuukaudet < 1 || kuukaudet > 12) {
+                    document.getElementById("errorkuukausi").innerHTML = "Error with months"
+                }
+                return
+            }
+        }
+
+        // Checks if given year is not in the future and calculates the age
+        function ika() {
+            // ('+'=1800-luku, '-'=1900-luku tai 'A'=2000-luku)
+            document.getElementById("ika").innerHTML = ""
+            document.getElementById("errorvuosi").innerHTML = ""
+
+            let vuodet = parseInt(syntymaaika[0].slice(4, 6)) // Object to integer
+            let tamapaiva = new Date().getFullYear() // Set current year to a variable
+
+            let vuosiSata = 0 // Variable for millennium
+
+            if (valimerkki == "+") {
+                vuosiSata = 1800
+            }
+            else if (valimerkki == "-") {
+                vuosiSata = 1900
+            }
+            else if (valimerkki == "A") {
+                vuosiSata = 2000
+            }
+
+            // Birth year of person (two digit birth number from SSN + millennium)
+            let syntymaVuosi = vuodet + vuosiSata
+            // Error if birth year is in the future
+            if (syntymaVuosi > tamapaiva) {
+                document.getElementById("errorvuosi").innerHTML = "Year cannot be in the future"
+                return
+            }
+
+            let henkilonIka = tamapaiva - syntymaVuosi // Age of the person
+
+            document.getElementById("ika").innerHTML = "Age is " + henkilonIka
+
+        }
+
+        // Function to determine gender (even = woman, uneven = man)
+        function sukupuoli() {
+            document.getElementById("sukupuoli").innerHTML = ""
+
+            if (yksilonumero % 2 === 0) {
+                document.getElementById("sukupuoli").innerHTML = "Gender: woman"
+            } else {
+                document.getElementById("sukupuoli").innerHTML = "Gender: man"
+            }
+            return
+        }
+
+        // Counts if the SSN is real comparing the sum of birthyear and first three numbers of the second part of the SSN to a table of numbers and letters
+        function tarkistusnumero() {
+            let syn = syntymaaika;
+            let yks = yksilonumero;
+            let tarknro = parseInt(syn + yks);
+            let tulos = tarknro % 31;
+
+            let tarkistusTaulukko = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F", "H", "J", "K", "L", "M", "N", "P", "R", "S", "T", "U", "V", "W", "X", "Y"];
+
+            if (tarkistusTaulukko[tulos] == tarkistusmerkki) {
+                document.getElementById("tarknumero").innerHTML = "Social Security Number is correct";
+            } else {
+                document.getElementById("tarknumero").innerHTML = "Social Security Number is not correct";
+            }
+        }
+
+    </script>
+  </head>
+
+  <body>
+    <!-- Container -->
+    <div class="container headdiv p-5">
+        <h2><strong>Finnish Social Security Number Validator</strong></h2><br>
+        <!-- Input -->
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="henkiloturvatunnus">Enter Social Security Number</label>
+            </div>
+            <div class="col-sm-6">
+                <input type="text" id="henkilotunnus">
+            </div>
+        </div>
+        <!-- Button and errors -->
+        <div class="row">
+            <div class="col-sm-12">
+                <button onclick="tarkista()">Check SSN</button><br><br>
+                <p id="error" class="punteksti"></p>
+                <p id="errorpaiva" class="punteksti"></p>
+                <p id="errorkuukausi" class="punteksti"></p>
+                <p id="errorvuosi" class="punteksti"></p>
+                <p id="sukupuoli"></p>
+                <p id="ika"></p>
+                <p id="tarknumero"></p>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
