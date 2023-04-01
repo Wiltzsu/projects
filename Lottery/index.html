@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Javascript -->
+    <script src="javascript/javascript.js"></script>
+    <title>Oppimistehtävä 2</title>
+  </head>
+
+  <body>
+    <!-- Container -->
+    <div class="container headdiv">
+        <h1 class="sinteksti">Arpajaiset</h1>
+        <div class="row">
+            <!-- Lisää palkinnot -->
+            <div class="col- col-sm-4 col-md-4 pt-4">
+                <h4><strong>Lisää palkinnot</strong></h4>
+                <label for="palkinto">Palkinto</label><br><input type="text" id="palkinto">
+                <button onclick="lisaaPalkinto()">Lisää palkinto</button>
+                <p id="error1"></p>
+                <h4><strong>Palkinnot</strong></h4>
+                <p id="palkintosumma"></p>
+            </div>
+            <!-- Lisää henkilö -->
+            <div class="col- col-sm-4 col-md-4 pt-4">
+                <h4><strong>Lisää henkilö</strong></h4>
+                <label for="henkilonnimi">Henkilön nimi</label><br><input type="text" id="nimi">
+                <button onclick="lisaaHenkilo()">Lisää henkilö</button>
+                <p id="error2"></p>
+                <h4><strong>Henkilöt</strong></h4>
+                <p id="henkilot"></p>
+            </div>
+            <!-- Henkilöt ja palkinnot -->
+            <div class="col- col-sm-4 col-md-4 pt-4">
+                <h4><strong>Henkilöt ja palkinnot</strong></h4>
+                <button onclick="palkinto()">Palkinto henkilölle</button>
+                <p> <!--<span id="name"></span> <span id="price"></span>--> </p>
+                <!--<ul id="list"></ul>-->
+                <p id="error3"></p>
+                <p id="namee"></p>
+
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
