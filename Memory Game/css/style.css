@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Gajraj+One&family=Roboto&family=Roboto+Mono:wght@600&family=Shantell+Sans:ital@1&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: rgb(148,187,233);
+    background: -moz-radial-gradient(circle, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    background: -webkit-radial-gradient(circle, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    background: radial-gradient(circle, rgba(148,187,233,1) 0%, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+}
+
+.container {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding-bottom:3em;
+}
+
+.marg {
+    padding-top: 12px;
+}
+
+.centr {
+    display: flex;
+    justify-content: center;
+}
+
+.heading {
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    background-image: url(../img/tausta.png);
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2.5em;
+    font-weight: 800;
+    border: 5px solid rgb(116, 8, 98);
+    -webkit-text-stroke: 1px black;
+    text-shadow: 0 0 3px black;
+}
+
+h5 {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.3em;
+    color: white;
+    text-shadow: 0 0 2px black;
+}
+
+button {
+    color: whitesmoke;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.0em;
+    background-image: url(../img/tausta.png);
+    border-radius: 8px;
+    border: 2px solid #521f30;
+    width: 130px;
+    height: 50px;
+}
+
+.cards {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1em;
+}
+
+.card {
+    height: 110px;
+    width: 90px;
+    top: 900px;
+    background-image: url('../img/tausta.png');
+    border-radius: 10px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: 0.3s all ease;
+    box-shadow: 1px 1px 1px 1px lightblue;
+}
+
+.card img {
+    width: 90%;
+    max-height: 110px;
+    opacity: 0;
+    transform: 0.3s all ease;
+}
+
+.card.clicked {
+    background-color: #d1d86e;
+    background-image: none;
+}
+
+.card.checked {
+    background-color: rgb(104, 197, 104);
+    background-image: none;
+}
+
+.card.clicked img,
+.card.checked img {
+    opacity: 1;
+}
+
+.card.wrong {
+    background-color: #e24646;
+    pointer-events: none;
+}
